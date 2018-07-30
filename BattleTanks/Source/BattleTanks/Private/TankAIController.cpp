@@ -11,27 +11,15 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
-	/// Check if controlling a tank
-	auto ControlledTank = GetControlledTank();
-	if (ControlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Controlling %s"), *ControlledTank->GetName())
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Tank Not Valid"))
-	}
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 
-	/// Check for a player tank
-	auto PlayerTank = GetPlayerTank();
-	if (PlayerTank)
+	if (GetPlayerTank() && GetControlledTank())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Found player %s"), *PlayerTank->GetName())
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Player Tank Not Valid"))
+		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 	}
 }
 
