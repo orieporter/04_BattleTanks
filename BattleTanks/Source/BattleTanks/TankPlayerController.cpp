@@ -48,9 +48,13 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
 {
-	// Get crosshair location
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	// Find the crosshair position
+	FVector2D ScreenLocation = FVector2D((ViewportSizeX*CrosshairXLocation), (ViewportSizeY*CrosshairYLocation));
+	// De-project the position of the crosshair to a world direction
 	OutHitLocation = FVector(1.0);
-	// LineTrace through crosshair with landscape collision
+	// LineTrace through crosshair with landscape collision (up to max range)
 
 	return true;
 }
