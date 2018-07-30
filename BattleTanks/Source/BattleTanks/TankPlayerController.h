@@ -29,9 +29,11 @@ private:
 	ATank * GetControlledTank() const;
 
 	UPROPERTY(EditAnywhere)
-		float CrosshairXLocation;
+		float CrosshairXLocation = 0.5f;
 
 	UPROPERTY(EditAnywhere)
-		float CrosshairYLocation;
+		float CrosshairYLocation = 0.33333f;
+
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 		
 };
