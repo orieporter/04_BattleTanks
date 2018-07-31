@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
+#include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 
 
 // Sets default values for this component's properties
@@ -34,5 +35,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s"), *GetName(), *HitLocation.ToString())
+
+	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from %s"), *GetName(), *HitLocation.ToString(), *Barrel->GetComponentLocation().ToString())
+}
+
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+{
+	Barrel = BarrelToSet;
 }
