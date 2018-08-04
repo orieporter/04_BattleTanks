@@ -52,7 +52,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	// Convert AimDirection to a usable pitch for the barrel
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotator = AimAsRotator - BarrelRotator - AimAsRotator;
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
-	Barrel->Elevate(5.0f);
+	Barrel->Elevate(DeltaRotator.Pitch);
 }
