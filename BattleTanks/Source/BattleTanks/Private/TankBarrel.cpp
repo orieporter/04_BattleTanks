@@ -9,7 +9,7 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 	auto ElevationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 	auto RawNewElevation = RelativeRotation.Pitch + ElevationChange;
 	auto SafeNewElevation = FMath::Clamp(RawNewElevation, MinElevation, MaxElevation);
-	//UE_LOG(LogTemp, Warning, TEXT("%s %f"), *GetOwner()->GetName(), RelativeSpeed)
+	
 	SetRelativeRotation(FRotator(SafeNewElevation, 0.0f, 0.0f));
 }
 
