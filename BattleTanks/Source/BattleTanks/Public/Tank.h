@@ -49,4 +49,9 @@ private:
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	UTankBarrel * Barrel = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	float ReloadTimeInSeconds = 3.0f;
+
+	double LastReloadTime = -ReloadTimeInSeconds;
 };
