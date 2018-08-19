@@ -19,5 +19,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetThrottle(float Throttle);
 	
-	
+	// Max force in newtons
+	UPROPERTY(EditDefaultsOnly)
+		float TrackMaxDrivingForce = 400000.0f; // Assume 40,000kg tank and 1g acceleration
 };
