@@ -17,10 +17,9 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	AimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	MovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
-// Called when the game starts or when spawned
+// Callem0d when the game starts or when spawned
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
