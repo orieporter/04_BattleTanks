@@ -7,6 +7,7 @@
 #include "TankPlayerController.generated.h"
 
 class ATank;
+class UTankAimingComponent;
 
 /**
  * 
@@ -24,6 +25,9 @@ public:
 protected:
 	UFUNCTION(BlueprintCallable)
 	ATank * GetControlledTank() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComponent(UTankAimingComponent* AimingComponentReference);
 
 private:
 	// Aim tank barrel towards the point that shots fired will hit where the crosshair intersects the world
