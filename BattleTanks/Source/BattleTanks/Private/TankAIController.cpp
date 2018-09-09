@@ -5,6 +5,7 @@
 #include "Tank.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
+// MoveToActor depends on TankMovementComponent::RequestDirectMove()
 
 
 
