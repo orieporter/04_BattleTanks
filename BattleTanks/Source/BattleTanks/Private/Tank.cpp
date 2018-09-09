@@ -25,7 +25,7 @@ void ATank::Initialize(UTankBarrel* BarrelToSet, UTankAimingComponent* AimingCom
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!AimingComponent) { return; }
+	if (!ensure(AimingComponent)) { return; }
 	AimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
@@ -33,7 +33,7 @@ void ATank::Fire()
 {
 	bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastReloadTime) > ReloadTimeInSeconds;
 
-	if (Barrel && IsReloaded)
+	if (ensure(Barrel) && IsReloaded)
 	{
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
