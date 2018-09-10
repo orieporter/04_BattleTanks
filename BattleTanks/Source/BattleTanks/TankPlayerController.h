@@ -6,7 +6,6 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
 class UTankAimingComponent;
 
 /**
@@ -23,9 +22,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 protected:
-	UFUNCTION(BlueprintCallable)
-	ATank * GetControlledTank() const;
-
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 		void FoundAimingComponent(UTankAimingComponent* AimingComponentReference);
 
@@ -47,5 +43,7 @@ private:
 	float LineTraceRange = 1000000.0f;
 
 	bool GetLookVectorHitLocation(FVector& HitLocation, FVector CrosshairWorldLocation, FVector LookDirection) const;
+
+	UTankAimingComponent * AimingComponent = nullptr;
 		
 };
