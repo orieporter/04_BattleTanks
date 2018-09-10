@@ -42,6 +42,11 @@ protected:
 		void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 private:
+	virtual void BeginPlay() override;
+
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
+
 	void MoveBarrelTowards(FVector AimDirection);
 
 	void MoveTurretTowards(FVector AimDirection);
@@ -52,7 +57,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		float ReloadTimeInSeconds = 3.0f;
 
-	double LastReloadTime = -ReloadTimeInSeconds;
+	double LastReloadTime;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		TSubclassOf<AProjectile> ProjectileBlueprint;

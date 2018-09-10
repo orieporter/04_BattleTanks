@@ -7,6 +7,7 @@
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "TankAimingComponent.h"
 
 
 // Sets default values for this component's properties
@@ -14,7 +15,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
@@ -23,6 +24,19 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 {
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+	LastReloadTime = GetWorld()->GetTimeSeconds();
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+{
+	if ((GetWorld()->GetTimeSeconds() - LastReloadTime) > ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Aiming;
+	}
 }
 
 UTankBarrel * UTankAimingComponent::GetBarrel() const
@@ -59,7 +73,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 void UTankAimingComponent::Fire()
 {
-	bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastReloadTime) > ReloadTimeInSeconds;
+	bool IsReloaded = FiringState != EFiringState::Reloading;
 
 	if (ensure(Barrel) && ensure(ProjectileBlueprint) && IsReloaded)
 	{
@@ -71,6 +85,7 @@ void UTankAimingComponent::Fire()
 
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastReloadTime = GetWorld()->GetTimeSeconds();
+		FiringState = EFiringState::Reloading;
 	}
 }
 
