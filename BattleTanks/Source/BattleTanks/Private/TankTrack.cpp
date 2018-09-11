@@ -2,6 +2,22 @@
 
 #include "TankTrack.h"
 
+UTankTrack::UTankTrack()
+{
+	PrimaryComponentTick.bCanEverTick = true;
+}
+
+void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
+	auto SlippageSpeed = FVector::DotProduct(GetComponentVelocity(), GetRightVector());
+
+	auto TankRoot = Cast<UStaticMeshComponent>(GetAttachmentRoot());
+	auto CorrectionForce = (-SlippageSpeed / DeltaTime * TankRoot->GetMass() * GetRightVector()) / 2;
+	TankRoot->AddForce(CorrectionForce);
+}
+
 void UTankTrack::SetThrottle(float Throttle)
 {
 

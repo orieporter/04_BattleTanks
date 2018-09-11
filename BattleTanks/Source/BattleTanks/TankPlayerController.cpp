@@ -28,7 +28,10 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ensure(AimingComponent)) { return;  }
+	if (!GetPawn()) { return; }
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+
 
 	FVector HitLocation;
 	// Get world location if linetrace through crosshair
