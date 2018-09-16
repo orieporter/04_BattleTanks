@@ -26,7 +26,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		float TrackMaxDrivingForce = 20000000.0f; // Figured out through testing
 
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	float CurrentThrottle;
 
 	UTankTrack();
 
@@ -34,4 +34,8 @@ private:
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit);
+	
+	void EliminateSlippage();
+
+	void DriveTrack();
 };
