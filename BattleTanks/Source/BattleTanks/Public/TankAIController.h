@@ -22,5 +22,6 @@ public:
 
 private:
 	// How close the AI will get to the player
+	UPROPERTY(EditAnywhere, Category = "Setup")
 	float AcceptanceRadius = 3000.0f;
 };

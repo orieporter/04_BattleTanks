@@ -32,7 +32,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 
-
 	FVector HitLocation;
 	// Get world location if linetrace through crosshair
 	if (GetSightRayHitLocation(HitLocation))
