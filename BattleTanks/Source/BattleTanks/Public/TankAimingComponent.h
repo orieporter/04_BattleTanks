@@ -72,5 +72,5 @@ private:
 
 	FVector AimDirection;
 
-	int AmmoCount = 5;
+	int AmmoCount = 50;
 };
