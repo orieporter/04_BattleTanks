@@ -7,6 +7,8 @@
 #include "Projectile.generated.h"
 
 class UProjectileMovementComponent;
+class UStaticMeshComponent;
+class UParticleSystemComponent;
 
 UCLASS()
 class BATTLETANKS_API AProjectile : public AActor
@@ -29,7 +31,9 @@ protected:
 private:
 	UProjectileMovementComponent * ProjectileMovementComponent = nullptr;
 
-
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UStaticMeshComponent * CollisionMesh = nullptr;
 	
-	
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	UParticleSystemComponent * LaunchBlast = nullptr;
 };

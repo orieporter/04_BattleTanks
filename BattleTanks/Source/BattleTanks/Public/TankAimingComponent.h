@@ -36,7 +36,7 @@ public:
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetAmmoCount() const;
+	int32 GetAmmoCount() const;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -72,5 +72,6 @@ private:
 
 	FVector AimDirection;
 
-	int AmmoCount = 50;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 AmmoCount = 50;
 };
