@@ -17,8 +17,16 @@ public:
 
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+
+	// Returns current health as a percentage of starting health between 0 and 1
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent() const;
+
 protected:
 
 private:
-	float CurrentHealth = 100.0f;
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+		float StartingHealth = 100.0f;
+
+	float CurrentHealth = StartingHealth;
 };
