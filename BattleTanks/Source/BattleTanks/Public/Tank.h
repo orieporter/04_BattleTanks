@@ -27,6 +27,7 @@ public:
 	FTankDelegate OnDeath;
 
 protected:
+	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Health")

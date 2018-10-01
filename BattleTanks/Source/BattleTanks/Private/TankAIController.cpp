@@ -46,7 +46,7 @@ void ATankAIController::Tick(float DeltaTime)
 			AimingComponent->AimAt(PlayerPawn->GetActorLocation());
 			if (AimingComponent->GetFiringState() == EFiringState::Locked)
 			{
-				AimingComponent->Fire();
+				//AimingComponent->Fire();
 			}
 		}
 	}
@@ -54,5 +54,5 @@ void ATankAIController::Tick(float DeltaTime)
 
 void ATankAIController::OnTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Tank has died"))
+	GetPawn()->DetachFromControllerPendingDestroy();
 }

@@ -28,3 +28,10 @@ float ATank::GetHealthPercent() const
 {
 	return CurrentHealth / StartingHealth;
 }
+
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+
+	CurrentHealth = StartingHealth;
+}
