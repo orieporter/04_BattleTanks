@@ -18,7 +18,7 @@ float ATank::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AC
 
 	if (CurrentHealth <= 0.0f)
 	{
-		Destroy();
+		OnDeath.Broadcast();
 	}
 
 	return 0.0f;

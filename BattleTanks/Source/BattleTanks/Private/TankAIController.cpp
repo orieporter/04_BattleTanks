@@ -3,6 +3,7 @@
 #include "TankAIController.h"
 #include "TankAimingComponent.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
+#include "Tank.h"
 #include "Runtime/Engine/Classes/GameFramework/PlayerController.h"
 // MoveToActor depends on TankMovementComponent::RequestDirectMove()
 
@@ -13,6 +14,19 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void ATankAIController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
+	}
 }
 
 void ATankAIController::Tick(float DeltaTime)
@@ -32,8 +46,13 @@ void ATankAIController::Tick(float DeltaTime)
 			AimingComponent->AimAt(PlayerPawn->GetActorLocation());
 			if (AimingComponent->GetFiringState() == EFiringState::Locked)
 			{
-				//AimingComponent->Fire();
+				AimingComponent->Fire();
 			}
 		}
 	}
+}
+
+void ATankAIController::OnTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Tank has died"))
 }

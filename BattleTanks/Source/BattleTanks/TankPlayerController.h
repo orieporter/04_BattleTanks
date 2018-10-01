@@ -31,18 +31,23 @@ private:
 
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection, FVector& CameraLocation) const;
+
+	bool GetLookVectorHitLocation(FVector& HitLocation, FVector CrosshairWorldLocation, FVector LookDirection) const;
+
+	UFUNCTION()
+		void OnTankDeath();
+
+	virtual void SetPawn(APawn * InPawn) override;
+
 	UPROPERTY(EditDefaultsOnly)
 		float CrosshairXLocation = 0.5f;
 
 	UPROPERTY(EditDefaultsOnly)
 		float CrosshairYLocation = 0.33333f;
 
-	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection, FVector& CameraLocation) const;
-
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.0f;
-
-	bool GetLookVectorHitLocation(FVector& HitLocation, FVector CrosshairWorldLocation, FVector LookDirection) const;
 
 	UTankAimingComponent * AimingComponent = nullptr;
 		
