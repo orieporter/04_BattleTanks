@@ -60,18 +60,20 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	ExplosionForce->FireImpulse();
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
 
 	UGameplayStatics::ApplyRadialDamage(
 		this,
 		ProjectileDamage,
 		GetActorLocation(),
-		ExplosionForce->Radius,
+		(ExplosionForce->Radius)*4,
 		UDamageType::StaticClass(),
-		TArray<AActor*>() // Damage all actors
+		TArray<AActor*>(), // Damage all actors
+		(AActor *)0,
+		(AController *)0,
+		true
 	);
-
-	SetRootComponent(ImpactBlast);
-	CollisionMesh->DestroyComponent();
 }
 
 void AProjectile::ProjectileExpire()
