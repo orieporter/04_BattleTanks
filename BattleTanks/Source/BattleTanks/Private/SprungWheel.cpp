@@ -14,9 +14,6 @@ ASprungWheel::ASprungWheel()
 	PhysicsConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Physics Constraint"));
 	SetRootComponent(PhysicsConstraint);
 
-	Mass = CreateDefaultSubobject<UStaticMeshComponent>(FName("Mass"));
-	Mass->SetupAttachment(RootComponent);
-
 	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
 	Wheel->SetupAttachment(RootComponent);
 }
@@ -26,27 +23,19 @@ void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (GetAttachParentActor())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s: Begin not null"), *GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s: Begin null"), *GetName());
-	}
+	SetupConstraint();
+}
+
+void ASprungWheel::SetupConstraint()
+{
+	if (!GetAttachParentActor()) { return; }
+	auto TankRoot = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
+	if (!TankRoot) { return; }
+	PhysicsConstraint->SetConstrainedComponents(TankRoot, FName(NAME_None), Wheel, FName(NAME_None));
 }
 
 // Called every frame
 void ASprungWheel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (GetAttachParentActor())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s: Not null"), *GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s: Null"), *GetName());
-	}
 }

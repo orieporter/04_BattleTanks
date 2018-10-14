@@ -26,11 +26,10 @@ protected:
 
 private:	
 	UPROPERTY(VisibleAnywhere, Category = "Component")
-		UStaticMeshComponent * Mass = nullptr;
-
-	UPROPERTY(VisibleAnywhere, Category = "Component")
 		UStaticMeshComponent * Wheel = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 		UPhysicsConstraintComponent * PhysicsConstraint = nullptr;
+
+	void SetupConstraint();
 };
