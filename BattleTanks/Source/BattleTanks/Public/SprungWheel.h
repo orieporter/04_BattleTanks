@@ -7,6 +7,7 @@
 #include "SprungWheel.generated.h"
 
 class UPhysicsConstraintComponent;
+class USphereComponent;
 
 UCLASS()
 class BATTLETANKS_API ASprungWheel : public AActor
@@ -26,10 +27,16 @@ protected:
 
 private:	
 	UPROPERTY(VisibleAnywhere, Category = "Component")
-		UStaticMeshComponent * Wheel = nullptr;
+		USphereComponent * Axle = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Component")
-		UPhysicsConstraintComponent * PhysicsConstraint = nullptr;
+		USphereComponent * Wheel = nullptr;
 
-	void SetupConstraint();
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+		UPhysicsConstraintComponent * BodyAxleConstraint = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+		UPhysicsConstraintComponent * AxleWheelConstraint = nullptr;
+
+	void SetupConstraints();
 };
