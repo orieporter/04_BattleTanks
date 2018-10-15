@@ -18,6 +18,8 @@ public:
 	// Sets default values for this actor's properties
 	ASprungWheel();
 
+	void AddDrivingForce(float ForceMagnitude);
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

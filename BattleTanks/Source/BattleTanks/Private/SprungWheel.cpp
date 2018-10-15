@@ -43,6 +43,11 @@ void ASprungWheel::SetupConstraints()
 	AxleWheelConstraint->SetConstrainedComponents(Axle, FName(NAME_None), Wheel, FName(NAME_None));
 }
 
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	Wheel->AddForce(Axle->GetForwardVector() * ForceMagnitude);
+}
+
 // Called every frame
 void ASprungWheel::Tick(float DeltaTime)
 {

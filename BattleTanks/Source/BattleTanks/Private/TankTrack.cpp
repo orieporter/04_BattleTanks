@@ -2,44 +2,46 @@
 
 #include "TankTrack.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
+#include "SprungWheel.h"
+#include "SpawnPoint.h"
 
 UTankTrack::UTankTrack()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UTankTrack::BeginPlay()
+TArray<class ASprungWheel*> UTankTrack::GetWheels() const
 {
-	Super::BeginPlay();
-	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
-}
+	TArray<ASprungWheel*> Wheels;
 
-void UTankTrack::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
-{
-	DriveTrack();
-	EliminateSlippage();
-	CurrentThrottle = 0.0f;
-}
+	TArray<USceneComponent*> Children;
+	GetChildrenComponents(false, Children);
+	for (USceneComponent * Child : Children)
+	{
+		auto SpawnPoint = Cast<USpawnPoint>(Child);
+		if (!SpawnPoint) { continue; }
+		auto Wheel = Cast<ASprungWheel>(SpawnPoint->GetSpawnedActor());
+		if (!Wheel) { continue; }
 
-void UTankTrack::EliminateSlippage()
-{
-	auto SlippageSpeed = FVector::DotProduct(GetComponentVelocity(), GetRightVector());
-	auto TankRoot = Cast<UStaticMeshComponent>(GetAttachmentRoot());
-	auto DeltaTime = GetWorld()->GetDeltaSeconds();
-	auto CorrectionForce = (-SlippageSpeed / DeltaTime * TankRoot->GetMass() * GetRightVector()) / 2;
-	TankRoot->AddForce(CorrectionForce);
+		Wheels.Push(Wheel);
+
+	}
+	return Wheels;
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1.0f, 1.0f);
+	float CurrentThrottle = FMath::Clamp<float>(Throttle, -1.0f, 1.0f);
+	DriveTrack(CurrentThrottle);
 }
 
-void UTankTrack::DriveTrack()
+void UTankTrack::DriveTrack(float CurrentThrottle)
 {
-	auto ForceApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;
-	auto ForceLocation = GetComponentLocation();
-	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-
-	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
+	auto ForceApplied = CurrentThrottle * TrackMaxDrivingForce;
+	auto Wheels = GetWheels();
+	auto ForcePerWheel = ForceApplied / Wheels.Num();
+	for (ASprungWheel * Wheel : Wheels)
+	{
+		Wheel->AddDrivingForce(ForcePerWheel);
+	}
 }
