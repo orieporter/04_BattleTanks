@@ -4,6 +4,7 @@
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 #include "Runtime/Engine/Classes/PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
+#include "Runtime/Engine/Classes/Engine/World.h"
 
 
 // Sets default values
@@ -30,6 +31,11 @@ void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Wheel->SetNotifyRigidBodyCollision(true);
+	Wheel->OnComponentHit.AddDynamic(this, &ASprungWheel::OnHit);
+
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
+
 	SetupConstraints();
 }
 
@@ -43,13 +49,23 @@ void ASprungWheel::SetupConstraints()
 	AxleWheelConstraint->SetConstrainedComponents(Axle, FName(NAME_None), Wheel, FName(NAME_None));
 }
 
+void ASprungWheel::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, FVector NormalImpulse, const FHitResult & Hit)
+{
+	auto ForceToAdd = Axle->GetForwardVector() * TotalForceMagnitude;
+	Wheel->AddForce(ForceToAdd);
+}
+
 void ASprungWheel::AddDrivingForce(float ForceMagnitude)
 {
-	Wheel->AddForce(Axle->GetForwardVector() * ForceMagnitude);
+	TotalForceMagnitude += ForceMagnitude;
 }
 
 // Called every frame
 void ASprungWheel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (GetWorld()->TickGroup == TG_PostPhysics)
+	{
+		TotalForceMagnitude = 0.0f;
+	}
 }

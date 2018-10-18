@@ -6,8 +6,6 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTrack.generated.h"
 
-class FComponentHitSignature;
-
 /**
  * TankTrack is used to set maximum driving force, and to apply forces to the tank.
  */

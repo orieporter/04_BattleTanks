@@ -13,8 +13,8 @@ UCLASS()
 class BATTLETANKS_API ASprungWheel : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ASprungWheel();
 
@@ -27,7 +27,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:	
+private:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 		USphereComponent * Axle = nullptr;
 
@@ -40,5 +40,10 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 		UPhysicsConstraintComponent * AxleWheelConstraint = nullptr;
 
+	float TotalForceMagnitude = 0.0f;
+
 	void SetupConstraints();
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };
