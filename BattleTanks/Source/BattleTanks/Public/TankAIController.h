@@ -25,6 +25,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	float AcceptanceRadius = 3000.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Testing")
+		bool bCanFire = true; // Set in blueprint for quick testing/debugging
+
 	virtual void SetPawn(APawn * InPawn) override;
 
 	UFUNCTION()
